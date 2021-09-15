@@ -73,10 +73,10 @@ def orders():
         orders = Orders.query.order_by(Orders.date_created)
     return render_template("orders.html", orders=orders)
 
-@app.route("/webhook")
+@app.route("/webhook", methods=["POST", "GET"])
 def webhook():
 
-    return render_template("webhook.html", subscribers=subscribers)
+    return render_template("webhook.html")
 
 @app.route("/subscribe")
 def subscribe():
@@ -121,12 +121,3 @@ def form():
     myTeamsMessage.send()
 
     return render_template("form.html", first_name=first_name)
-
-
-
-
-if __name__ == "__main__":
-    # If debug = True, server will restart when changes are registered in script
-    # Turn off or comment out in production mode
-    app.debug = True
-    app.run()
