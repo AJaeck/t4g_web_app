@@ -76,6 +76,48 @@ def orders():
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
 
+    if request.method == 'POST':
+
+        print("Webhook triggered!")
+        # grab information from JSON Object
+        total = request.json["total"]
+        currency = request.json["currency"]
+        fname = request.json["billing"]["first_name"]
+        lname = request.json["billing"]["last_name"]
+        product_list = request.json["line_items"]
+
+        # loop through line_items and display quantity and price of each product bought
+        # return a string of all necessary information for connector card
+        def list_products():
+            x = 1
+            lists = []
+            dname = "Donor: " + fname + " " + lname + " | "
+            summary = " | Total: " + total + " " + currency
+            for i in product_list:
+                product = i["name"]
+                quantity = i["quantity"]
+                product_total = i["total"]
+                purchase = "Product " + str(x) + ": " + str(quantity) + "x " + product + " for " + product_total + " " + currency
+                x += 1
+                lists.append(purchase)
+            result = " | ".join(lists)
+            return(dname + result + summary)
+
+        # Create Connector Card
+        # Add a title
+        myTeamsMessage.title("Incoming Shop Donation")
+
+        # Add text to the message
+        txt = str(list_products())
+        myTeamsMessage.text(txt)
+        print(txt)
+
+        # Add a link button
+        myTeamsMessage.addLinkButton("View Inventory", inventory_url)
+
+        # send the message.
+        myTeamsMessage.send()
+
     return render_template("webhook.html")
 
 @app.route("/subscribe")
