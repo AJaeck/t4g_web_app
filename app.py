@@ -90,12 +90,13 @@ def form():
     last_name = request.form.get("last_name")
     email = request.form.get("email")
 
-    # create email message to subscriber
-    message = "You have been subscribed to my email newsletter"
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login("ajaeck@gmail.com", "") # set password as env variable
-    server.sendmail("ajaeck@gmail.com", email)
+    # create email message to subscriber /commented our due to athentication errors
+    # need to register as safe app to google to work
+    #message = "You have been subscribed to my email newsletter"
+    #server = smtplib.SMTP("smtp.gmail.com", 587)
+    #server.starttls()
+    #server.login("ajaeck@gmail.com", "") # set password as env variable
+    #server.sendmail("ajaeck@gmail.com", email)
 
     #form error hadling
     if not first_name or not last_name or not email:
