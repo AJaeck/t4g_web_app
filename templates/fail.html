@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 
+-- Redirected to this site when form is not properly filled out 
+-- Tranfer inout which was properly input 
+--> 
+    <div class="container">
+        <h1>Error</h1>
+        <p>{{ error_statement }}</p>
+
+        <form class="container" action="/form" method="POST">
+            <div class="mb-3">
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ first_name }}" placeholder="First Name" name="first_name">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ last_name }}" placeholder="Last Name" name="last_name">
+            </div>
+            <div class="mb-3">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ email }}" placeholder="Email" name="email">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+{% endblock %}
