@@ -3,11 +3,16 @@
 # 2. Send Post Request with response body similar to the one of woocommerce order created (or run webhook.py)
 # 3. Magic 🧙‍️
 
+# Code of your application, which uses environment variables (e.g. from `os.environ` or
+# `os.getenv`) as if they came from the actual environment.
+from dotenv import load_dotenv
+import os
+
 # pymsteams docs @ https://pypi.org/project/pymsteams/
 import pymsteams
 
 # Flask docs @ https://flask.palletsprojects.com/en/2.0.x/
-from flask import Flask, request, abort, render_template
+from flask import Flask, request, render_template
 
 # send emails from form
 import smtplib
@@ -17,6 +22,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 from werkzeug.utils import redirect
+
+# take environment variables from .env.
+load_dotenv()
 
 # initiate flask app and config database
 app = Flask(__name__)
@@ -41,7 +49,7 @@ subscribers = []
 # using the incoming webhook connector in teams
 # currently in the Sandbox Team > General Channel
 # Config if necessary
-teams_url = "https://together4ghana.webhook.office.com/webhookb2/1c35a028-8500-47ba-9a5c-2bb20121ce8f@76a44d37-80fd-4f78-9af8-9c6787de275e/IncomingWebhook/a06be107127041169499b46e21e1168a/b0a5941f-2aed-4244-88a5-d8d35cb4d739"
+teams_url = os.getenv("TEAMS_URL")
 
 #link to shop inventory which appears on the connector card in teams
 inventory_url = "https://teams.microsoft.com/l/entity/26bc2873-6023-480c-a11b-76b66605ce8c/_djb2_msteams_prefix_3731328403?context=%7B%22subEntityId%22%3Anull%2C%22channelId%22%3A%2219%3Ac0e11ad3197445e5b21885091f403d72%40thread.tacv2%22%7D&groupId=ca70fcdf-7ce6-4bed-be63-d4a1efcb5950&tenantId=76a44d37-80fd-4f78-9af8-9c6787de275e"
@@ -137,7 +145,7 @@ def form():
     #message = "You have been subscribed to my email newsletter"
     #server = smtplib.SMTP("smtp.gmail.com", 587)
     #server.starttls()
-    #server.login("ajaeck@gmail.com", "") # set password as env variable
+    #server.login("","") -> (email, password)
     #server.sendmail("ajaeck@gmail.com", email)
 
     #form error hadling
